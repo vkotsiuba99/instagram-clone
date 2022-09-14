@@ -1,9 +1,9 @@
-package accounts_api
+package account_api
 
 import (
 	"context"
 	"github.com/gorilla/mux"
-	"instagram-clone/accounts-api/handlers"
+	"instagram-clone/account-api/handlers"
 	"log"
 	"net/http"
 	"os"
@@ -14,7 +14,7 @@ import (
 var address = ":9090"
 
 func main() {
-	logger := log.New(os.Stdout, "accounts-api ", log.LstdFlags)
+	logger := log.New(os.Stdout, "account-api ", log.LstdFlags)
 
 	// create gorilla mux router
 	router := mux.NewRouter()

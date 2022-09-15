@@ -36,5 +36,6 @@ func (d *Database) CreateConnection() *sql.DB {
 		os.Exit(1)
 	}
 
+	d.logger.Println("Successfully connected to postgres database")
 	return database
 }

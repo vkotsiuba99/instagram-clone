@@ -3,9 +3,8 @@ package account_api
 import (
 	"context"
 	"github.com/gorilla/mux"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 	"instagram-clone/account-api/handlers"
+	"instagram-clone/internal"
 	"log"
 	"net/http"
 	"os"
@@ -18,19 +17,7 @@ var address = ":9090"
 func main() {
 	logger := log.New(os.Stdout, "accounts-api ", log.LstdFlags)
 
-	dsn := "user=postgres password=postgres dbname=insta-clone port=5432 sslmode=disable"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-
-	if err != nil {
-		logger.Printf("Error connecting to database: %s\n", err)
-		os.Exit(1)
-	}
-
-	database, err := db.DB()
-	if err != nil {
-		logger.Printf("Error connecting to database: %s\n", err)
-		os.Exit(1)
-	}
+	database := internal.NewDatabase(logger).CreateConnection()
 	defer database.Close()
 
 	// create gorilla mux router

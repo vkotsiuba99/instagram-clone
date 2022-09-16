@@ -3,6 +3,7 @@ package account_api
 import (
 	"context"
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 	"instagram-clone/account-api/handlers"
 	"instagram-clone/internal"
 	"log"
@@ -15,6 +16,8 @@ import (
 var address = ":9090"
 
 func main() {
+	godotenv.Load(".env")
+
 	logger := log.New(os.Stdout, "accounts-api ", log.LstdFlags)
 
 	// create connection to postgres database

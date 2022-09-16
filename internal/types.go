@@ -6,8 +6,8 @@ import (
 	"time"
 )
 
-// User is the database struct
-type User struct {
+// Account is the database struct
+type Account struct {
 	ID          uint         `json:"id"`
 	Name        string       `json:"name" validate:"required"`
 	Email       *string      `json:"email" validate:"required"`
@@ -20,7 +20,7 @@ type User struct {
 }
 
 // Validate checks the validation of the user struct
-func (u *User) Validate() error {
+func (a *Account) Validate() error {
 	validate := validator.New()
-	return validate.Struct(u)
+	return validate.Struct(a)
 }

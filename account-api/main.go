@@ -2,6 +2,7 @@ package account_api
 
 import (
 	"context"
+	"github.com/go-openapi/runtime/middleware"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"instagram-clone/account-api/handlers"
@@ -47,6 +48,11 @@ func main() {
 	registerAccounts := router.Methods(http.MethodPost).Subrouter()
 	registerAccounts.HandleFunc("/register", accountsHandler.Register)
 	registerAccounts.Use(accountsHandler.MiddlewareValidateAccount)
+
+	options := middleware.RedocOpts{SpecURL: "/swagger.yaml"}
+	swaggerHandler := middleware.Redoc(options, nil)
+	getAccounts.Handle("/docs", swaggerHandler)
+	getAccounts.Handle("/swagger.yaml", http.FileServer(http.Dir("./")))
 
 	// create a new server
 	server := http.Server{

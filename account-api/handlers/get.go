@@ -6,6 +6,11 @@ import (
 	"strconv"
 )
 
+// swagger:route GET /account/{id} accounts listAccount
+// Returns a single account by a id
+// responses:
+//	200: accountResponse
+
 // ListSingle handles get requests and returns single account by id
 func (a *Accounts) ListSingle(rw http.ResponseWriter, r *http.Request) {
 	// TODO: get single account from database

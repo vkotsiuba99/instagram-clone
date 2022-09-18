@@ -1,11 +1,11 @@
-package images_service
+package services_images_service
 
 import (
 	"context"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
-	"instagram-clone/images-service/files"
-	"instagram-clone/images-service/handlers"
+	"instagram-clone/services.images-service/files"
+	"instagram-clone/services.images-service/handlers"
 	"log"
 	"net/http"
 	"os"

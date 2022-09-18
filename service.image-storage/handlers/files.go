@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"github.com/gorilla/mux"
-	"instagram-clone/services.image-storage/files"
+	"instagram-clone/service.image-storage/files"
 	"log"
 	"net/http"
 	"path/filepath"

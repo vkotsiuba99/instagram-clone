@@ -6,7 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"instagram-clone/internal"
-	"instagram-clone/services.account-api/handlers"
+	"instagram-clone/service.account-api/handlers"
 	"log"
 	"net/http"
 	"os"

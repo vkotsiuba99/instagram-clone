@@ -2,7 +2,7 @@ FROM golang:1.18-alpine3.16 as builder
 
 ADD . /go/src/instagram-clone/
 
-WORKDIR /go/src/instagram-clone/account-api
+WORKDIR /go/src/instagram-clone/service.account-api
 
 COPY go.mod .
 COPY go.sum .

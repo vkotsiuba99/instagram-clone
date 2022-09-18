@@ -37,6 +37,7 @@ func main() {
 
 	// create the handlers
 	fileHandler := handlers.NewFiles(storage, logger)
+	gzipMiddleware := handlers.GzipHandler{}
 
 	// create gorilla mux router with CORS
 	router := mux.NewRouter()
@@ -50,6 +51,7 @@ func main() {
 	// get files
 	getHandler := router.Methods(http.MethodGet).Subrouter()
 	getHandler.Handle("/images/{id:[0-9]+}/{filename:[a-zA-Z]+\\.[a-z]{3}}", http.StripPrefix("/images/", http.FileServer(http.Dir(basePath))))
+	getHandler.Use(gzipMiddleware.GzipMiddleware)
 
 	// create a new server
 	server := http.Server{

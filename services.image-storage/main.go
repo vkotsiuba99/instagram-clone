@@ -1,11 +1,11 @@
-package services_images_service
+package services_image_storage
 
 import (
 	"context"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
-	"instagram-clone/services.images-service/files"
-	"instagram-clone/services.images-service/handlers"
+	"instagram-clone/services.image-storage/files"
+	"instagram-clone/services.image-storage/handlers"
 	"log"
 	"net/http"
 	"os"
@@ -24,7 +24,7 @@ func main() {
 		godotenv.Load("../.env")
 	}
 
-	logger := log.New(os.Stdout, "images-service", log.LstdFlags)
+	logger := log.New(os.Stdout, "image-storage", log.LstdFlags)
 
 	// create the storage class, use local storage
 	// max filesize 5MB

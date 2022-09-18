@@ -3,9 +3,11 @@ package handlers
 import (
 	"github.com/gorilla/mux"
 	"instagram-clone/service.image-storage/files"
+	"io"
 	"log"
 	"net/http"
 	"path/filepath"
+	"strconv"
 )
 
 // Files struct represents a Files handler
@@ -32,7 +34,7 @@ func (f *Files) UploadRest(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f.saveFile(id, filename, rw, r)
+	f.saveFile(id, filename, rw, r.Body)
 }
 
 func (f *Files) UploadMultipart(rw http.ResponseWriter, r *http.Request) {
@@ -43,8 +45,22 @@ func (f *Files) UploadMultipart(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id := r.FormValue("id")
+	id, idErr := strconv.Atoi(r.FormValue("id"))
 	f.logger.Println("Process form for id", id)
+	if idErr != nil {
+		f.logger.Printf("Something went wrong while parsing multipart form %v", err)
+		http.Error(rw, "Expected integer id", http.StatusBadRequest)
+		return
+	}
+
+	file, fileHeader, err := r.FormFile("file")
+	if err != nil {
+		f.logger.Printf("Expected file for mulitpart uploading, %v", err)
+		http.Error(rw, "Expected file", http.StatusBadRequest)
+		return
+	}
+
+	f.saveFile(r.FormValue("id"), fileHeader.Filename, rw, file)
 }
 
 func (f *Files) invalidURI(uri string, rw http.ResponseWriter) {
@@ -52,12 +68,12 @@ func (f *Files) invalidURI(uri string, rw http.ResponseWriter) {
 	http.Error(rw, "Invalid file path should be in the format: /[id]/[filepath]", http.StatusBadRequest)
 }
 
-func (f *Files) saveFile(id, path string, rw http.ResponseWriter, r *http.Request) {
+func (f *Files) saveFile(id, path string, rw http.ResponseWriter, r io.ReadCloser) {
 	f.logger.Println("Save file for product", "id", id, "path", path)
 
 	// try to save file
 	filepath := filepath.Join(id, path)
-	err := f.storage.Save(filepath, r.Body)
+	err := f.storage.Save(filepath, r)
 	if err != nil {
 		f.logger.Fatal("Unable to save file:", err)
 		http.Error(rw, "Unable to save file", http.StatusInternalServerError)

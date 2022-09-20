@@ -15,7 +15,7 @@ import (
 )
 
 var address = ":9090"
-var basePath = "/tmp/images"
+var basePath = "./store"
 var env string
 
 func main() {
@@ -50,7 +50,10 @@ func main() {
 
 	// get files
 	getHandler := router.Methods(http.MethodGet).Subrouter()
-	getHandler.Handle("/images/{id:[0-9]+}/{filename:[a-zA-Z]+\\.[a-z]{3}}", http.StripPrefix("/images/", http.FileServer(http.Dir(basePath))))
+	getHandler.Handle(
+		"/images/{id:[0-9]+}/{filename:[a-zA-Z]+\\.[a-z]{3}}",
+		http.StripPrefix("/images/", http.FileServer(http.Dir(basePath))),
+	)
 	getHandler.Use(gzipMiddleware.GzipMiddleware)
 
 	// create a new server
